@@ -1,15 +1,17 @@
-package sqlfly
+package sqlfly_test
 
 import (
 	"fmt"
 	"strconv"
+
+	"github.com/Chyroc/sqlfly"
 )
 
 func Example_QueryRow_NoRow() {
 	testDB.Exec("truncate test")
 
 	var id int
-	if err := QueryRow(testDB, "select id from test limit 1").Scan(&id); err != nil {
+	if err := sqlfly.QueryRow(testDB, "select id from test limit 1").Scan(&id); err != nil {
 		fmt.Printf("err: %v\n", err)
 		return
 	}
@@ -27,7 +29,7 @@ func Example_QueryRow_WithRow() {
 	}
 
 	var b testTable
-	if err := QueryRow(testDB, "select id, name, age, created_at from test limit 1").Scan(&b.ID, &b.Name, &b.Age, &b.CreatedAt); err != nil {
+	if err := sqlfly.QueryRow(testDB, "select id, name, age, created_at from test limit 1").Scan(&b.ID, &b.Name, &b.Age, &b.CreatedAt); err != nil {
 		fmt.Printf("err: %v\n", err)
 		return
 	}
@@ -47,7 +49,7 @@ func Example_Query() {
 	}
 
 	var bs []testTable
-	err := Query(testDB, "select id, name, age, created_at from test").Each(func() (func(), []interface{}) {
+	err := sqlfly.Query(testDB, "select id, name, age, created_at from test").Each(func() (func(), []interface{}) {
 		var b testTable
 		return func() { bs = append(bs, b) }, []interface{}{&b.ID, &b.Name, &b.Age, &b.CreatedAt}
 	})

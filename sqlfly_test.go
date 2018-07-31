@@ -1,4 +1,4 @@
-package sqlfly
+package sqlfly_test
 
 import (
 	"database/sql"
