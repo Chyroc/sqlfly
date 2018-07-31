@@ -1,7 +1,6 @@
 package sqlfly_test
 
 import (
-	"database/sql"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -11,11 +10,6 @@ import (
 
 func TestQuery(t *testing.T) {
 	as := assert.New(t)
-
-	t.Run("query row", func(t *testing.T) {
-		var id string
-		as.Equal(sql.ErrNoRows, sqlfly.QueryRow(testDB, "select id from test limit 1").Scan(&id))
-	})
 
 	t.Run("query rows", func(t *testing.T) {
 		var ids []string

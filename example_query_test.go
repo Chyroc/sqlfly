@@ -7,39 +7,6 @@ import (
 	"github.com/Chyroc/sqlfly"
 )
 
-func Example_QueryRow_NoRow() {
-	testDB.Exec("truncate test")
-
-	var id int
-	if err := sqlfly.QueryRow(testDB, "select id from test limit 1").Scan(&id); err != nil {
-		fmt.Printf("err: %v\n", err)
-		return
-	}
-
-	fmt.Printf("id: %v\n", id)
-
-	// output:
-	// err: sql: no rows in result set
-}
-
-func Example_QueryRow_WithRow() {
-	testDB.Exec("truncate test")
-	if _, err := testDB.Exec("insert into test (name, age) values (?, ?)", "test_name", 666); err != nil {
-		panic(err)
-	}
-
-	var b testTable
-	if err := sqlfly.QueryRow(testDB, "select id, name, age, created_at from test limit 1").Scan(&b.ID, &b.Name, &b.Age, &b.CreatedAt); err != nil {
-		fmt.Printf("err: %v\n", err)
-		return
-	}
-
-	fmt.Printf("%s id(%d) age(%d)\n", b.Name, b.ID, b.Age)
-
-	// output:
-	// test_name id(1) age(666)
-}
-
 func Example_Query() {
 	testDB.Exec("truncate test")
 	for i := 0; i < 10; i++ {
