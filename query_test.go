@@ -23,4 +23,18 @@ func TestQuery(t *testing.T) {
 		}))
 		as.Len(ids, 0)
 	})
+
+	t.Run("more", func(t *testing.T) {
+		generateRandomData("test", 20)
+
+		var tests []testTable
+		as.Nil(Query(testDB, "select id, name, age, created_at from test").Each(func() (func(), []interface{}) {
+			var ta testTable
+			return func() { tests = append(tests, ta) }, []interface{}{&ta.ID, &ta.Name, &ta.Age, &ta.CreatedAt}
+		}))
+		as.Len(tests, 20)
+		first := tests[0]
+		as.Equal(1, first.ID)
+		t.Logf("frst %#v\n", first)
+	})
 }
