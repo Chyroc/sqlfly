@@ -54,5 +54,5 @@ func QueryContext(ctx context.Context, dber *sql.DB, query string, args ...inter
 }
 
 func Query(dber *sql.DB, query string, args ...interface{}) queryRows {
-	return QueryContext(context.Background(), dber, query, args)
+	return QueryContext(context.Background(), dber, query, args...)
 }

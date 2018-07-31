@@ -6,8 +6,12 @@ go:
   - 1.9.x
   - 1.10.x
 
+services:
+  - mysql
+
 before_install:
   - go get -u github.com/haya14busa/goverage
+  - mysql -e 'CREATE DATABASE sqlfly;'
 
 script:
   - ./cover.sh
