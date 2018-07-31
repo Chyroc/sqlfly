@@ -11,12 +11,12 @@ type Generator func() (func(), []interface{})
 
 type queryRows struct {
 	Rows *sql.Rows
-	err  error
+	Rrr  error
 }
 
 func (r queryRows) Each(g Generator) error {
-	if r.err != nil {
-		return r.err
+	if r.Rrr != nil {
+		return r.Rrr
 	}
 	defer r.Rows.Close()
 
@@ -34,7 +34,7 @@ func (r queryRows) Each(g Generator) error {
 
 func QueryContext(ctx context.Context, dber *sql.DB, query string, args ...interface{}) queryRows {
 	rows, err := dber.QueryContext(ctx, query, args...)
-	return queryRows{Rows: rows, err: err}
+	return queryRows{Rows: rows, Rrr: err}
 }
 
 func Query(dber *sql.DB, query string, args ...interface{}) queryRows {
